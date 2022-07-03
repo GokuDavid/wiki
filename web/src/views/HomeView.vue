@@ -60,15 +60,12 @@ import axios from "axios";
 export default defineComponent({
   name: 'HomeView',
   setup() {
-    console.log("setup")
     const ebooks = ref()
     onMounted(() => {
-      console.log('onMounted')
       axios.get("/ebook/list?name=spring").then(
           (response) => {
             const data=response.data;
             ebooks.value=data.content;
-            console.log(response)
           });
     })
     return {ebooks}
