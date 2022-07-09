@@ -1,6 +1,5 @@
 package com.goku.wiki.controller;
 
-import com.goku.wiki.domain.Ebook;
 import com.goku.wiki.req.EbookReq;
 import com.goku.wiki.resp.CommonResp;
 import com.goku.wiki.resp.EbookResp;
@@ -25,8 +24,8 @@ public class EbookController {
 
     @GetMapping("/list")
     public CommonResp list(EbookReq req) {
-        CommonResp<List<EbookResp>> resp = new CommonResp<>();
         List<EbookResp> list =ebookService.list(req);
+        CommonResp<List<EbookResp>> resp = new CommonResp<>();
         resp.setContent(list);
         return resp;
     }

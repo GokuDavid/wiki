@@ -1,6 +1,5 @@
 package com.goku.wiki.service;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.goku.wiki.domain.Ebook;
 import com.goku.wiki.domain.EbookExample;
 import com.goku.wiki.mapper.EbookMapper;
@@ -24,16 +23,14 @@ public class EbookService {
         EbookExample.Criteria criteria = ebookExample.createCriteria();
         criteria.andNameLike("%"+req.getName()+"%");
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
-
 //        List<EbookResp> respList=new ArrayList<>();
 //        for (Ebook ebook : ebookList) {
 //            EbookResp ebookResp = new EbookResp();
 //            BeanUtils.copyProperties(ebook,ebookResp);
-//            EbookResp ebookResp = CopyUtil.copy(ebook, EbookResp.class);
+//            EbookResp ebookResp= new CopyUtil.copy(ebook, EbookResp.class);
 //            respList.add(ebookResp);
 //        }
         List<EbookResp> list = CopyUtil.copyList(ebookList, EbookResp.class);
         return list;
-
-        }
+    }
     }
