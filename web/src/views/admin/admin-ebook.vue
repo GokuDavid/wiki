@@ -88,7 +88,7 @@ export default defineComponent({
      **/
     const handleQuery = (params: any) => {
       loading.value = true;
-      axios.get("/ebook/list?name=入门",
+      axios.get("/ebook/list",
         params).then((response) => {
         loading.value = false;
         const data = response.data;
