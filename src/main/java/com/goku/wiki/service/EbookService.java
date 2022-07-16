@@ -10,6 +10,7 @@ import com.goku.wiki.req.EbookSaveReq;
 import com.goku.wiki.resp.EbookQueryResp;
 import com.goku.wiki.resp.PageResp;
 import com.goku.wiki.util.CopyUtil;
+import com.goku.wiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class EbookService {
     private static final Logger LOG = LoggerFactory.getLogger(EbookService.class);
     @Resource
     private EbookMapper ebookMapper;
+
+    @Resource
+    private SnowFlake snowFlake;
 
     public PageResp<EbookQueryResp> list(EbookQueryReq req) {
         EbookExample ebookExample = new EbookExample();
@@ -53,6 +57,7 @@ public class EbookService {
     public void save(EbookSaveReq req){
         Ebook ebook =CopyUtil.copy(req,Ebook.class);
         if (ObjectUtils.isEmpty(req.getId())){
+            ebook.setId(snowFlake.nextId());
             ebookMapper.insert(ebook);
         }else {
         ebookMapper.updateByPrimaryKey(ebook);}
