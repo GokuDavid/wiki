@@ -1,17 +1,15 @@
 package com.goku.wiki.controller;
 
-import com.goku.wiki.req.EbookReq;
+import com.goku.wiki.req.EbookQueryReq;
+import com.goku.wiki.req.EbookSaveReq;
 import com.goku.wiki.resp.CommonResp;
-import com.goku.wiki.resp.EbookResp;
+import com.goku.wiki.resp.EbookQueryResp;
 import com.goku.wiki.resp.PageResp;
 import com.goku.wiki.service.EbookService;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 
 @RestController
@@ -24,10 +22,17 @@ public class EbookController {
     private EbookService ebookService;
 
     @GetMapping("/list")
-    public CommonResp list(EbookReq req) {
-        PageResp<EbookResp> list =ebookService.list(req);
-        CommonResp<PageResp<EbookResp>> resp = new CommonResp<>();
+    public CommonResp list(EbookQueryReq req) {
+        PageResp<EbookQueryResp> list =ebookService.list(req);
+        CommonResp<PageResp<EbookQueryResp>> resp = new CommonResp<>();
         resp.setContent(list);
+        return resp;
+    }
+
+    @PostMapping("/save")
+    public CommonResp save(@RequestBody EbookSaveReq req) {
+        ebookService.save(req);
+        CommonResp resp = new CommonResp<>();
         return resp;
     }
 }
