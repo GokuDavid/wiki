@@ -11,6 +11,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 
 @RestController
@@ -24,7 +25,7 @@ public class EbookController {
 
 
     @GetMapping("/list")
-    public CommonResp list(EbookQueryReq req) {
+    public CommonResp list(@Valid EbookQueryReq req) {
         PageResp<EbookQueryResp> list =ebookService.list(req);
         CommonResp<PageResp<EbookQueryResp>> resp = new CommonResp<>();
         resp.setContent(list);
