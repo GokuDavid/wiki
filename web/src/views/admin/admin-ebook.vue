@@ -33,7 +33,6 @@
           <img v-if="cover" :src="cover" alt="avatar"/>
         </template>
         <template v-slot:category="{ text, record }">
-          {{text}}***{{record}}
           <span>{{ getCategoryName(record.category1Id) }} / {{ getCategoryName(record.category2Id) }}</span>
         </template>
         <template v-slot:action="{ text, record }">
@@ -165,20 +164,18 @@ export default defineComponent({
         size: pagination.pageSize
       });
     };
-
+// -------- 表单 ---------
     const categoryIds=ref();
-
-    // -------- 表单 ---------
     const ebook = ref();
     const modalVisible = ref(false);
     const modalLoading = ref(false);
     const handleModalOk = () => {
       modalLoading.value = true;
+      ebook.value.category1Id=categoryIds.value[0];
+      ebook.value.category2Id=categoryIds.value[1];
       axios.post("/ebook/save",
           ebook.value).then((response) => {
         modalLoading.value = false;
-        ebook.value.category1Id=categoryIds.value[0];
-        ebook.value.category2Id=categoryIds.value[1];
         const data = response.data;
         if (data.success) {
           modalVisible.value = false;
