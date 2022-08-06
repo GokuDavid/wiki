@@ -25,7 +25,37 @@
     <a-layout-content
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
-      <pre>{{ ebooks }}</pre>
+      <div class="welcome" v-show="isShowWelcome">
+        <h1>Welcome!!</h1>
+      </div>
+      <a-list v-show="!isShowWelcome" item-layout="vertical" size="large" :grid="{ gutter: 20, column: 3 }" :data-source="ebooks">
+        <template #renderItem="{ item }">
+          <a-list-item key="item.name">
+            <template #actions>
+              <span>
+                <component v-bind:is="'FileOutlined'" style="margin-right: 8px" />
+                {{ item.docCount }}
+              </span>
+              <span>
+                <component v-bind:is="'UserOutlined'" style="margin-right: 8px" />
+                {{ item.viewCount }}
+              </span>
+              <span>
+                <component v-bind:is="'LikeOutlined'" style="margin-right: 8px" />
+                {{ item.voteCount }}
+              </span>
+            </template>
+            <a-list-item-meta :description="item.description">
+              <template #title>
+                <router-link :to="'/doc?ebookId=' + item.id">
+                  {{ item.name }}
+                </router-link>
+              </template>
+              <template #avatar><a-avatar :src="item.cover"/></template>
+            </a-list-item-meta>
+          </a-list-item>
+        </template>
+      </a-list>
     </a-layout-content>
   </a-layout>
 </template>
@@ -60,10 +90,14 @@ export default defineComponent({
         }
       });
     };
-
+    const isShowWelcome=ref(true);
+    
     const handleClick = (value: any) => {
-      console.log("menu click", value)
+      // console.log("menu click", value);
+      isShowWelcome.value = value.key === 'welcome';
       };
+
+
 
     onMounted(() => {
       handleQueryCategory();
@@ -76,7 +110,7 @@ export default defineComponent({
             ebooks.value=data.content.list;
           });
     })
-    return {ebooks,handleClick,level1}
+    return {ebooks,handleClick,level1,isShowWelcome}
   }
   });
 </script>
